@@ -15,7 +15,7 @@ MainServer::~MainServer()
         mUdpServer->deleteLater();
     }
 
-    mWorkThread.exit(0);
+    mWorkThread.terminate();
 }
 
 void MainServer::start()
