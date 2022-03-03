@@ -31,7 +31,6 @@ HEADERS += \
     Log/logger.h \
     mainserver.h
 
-
 LIBS += -L$$PWD/Libs/spdlog/lib \
 -lspdlog
 
