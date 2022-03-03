@@ -27,6 +27,8 @@ void UdpServer::stop()
     mSocketCommand->close();
     disconnect(mSocketCommand, &QUdpSocket::errorOccurred, this, &UdpServer::slot_command_socket_error_occurred);
     mSocketCommand->deleteLater();
+
+    LOG_DEBUG("停止监听端口");
 }
 
 void UdpServer::slot_start_listen()
@@ -61,7 +63,7 @@ void UdpServer::slot_start_listen()
 
 QString UdpServer::findBroadcastAddress()
 {
-    LOG_DEBUG("开始查找网关");
+    LOG_DEBUG("开始检测网卡状态");
     QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
     QString defaultGate = SoftConfig::getInstance()->getValue("Server", "gate");
     if (defaultGate.isEmpty())
@@ -437,7 +439,7 @@ void UdpServer::slot_command_socket_error_occurred(QAbstractSocket::SocketError 
 {
     Q_UNUSED(error);
     // 需要日志记录
-    LOG_DEBUG(QString("数据通道出现异常，已关闭, [错误码: %1]").arg(QString::number(error)).toStdString().data());
+    LOG_DEBUG(QString("网络数据通道出现异常，已关闭, [错误码: %1]").arg(QString::number(error)).toStdString().data());
 }
 
 void UdpServer::slot_recv_command_data()
