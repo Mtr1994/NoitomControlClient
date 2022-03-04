@@ -9,15 +9,18 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    // 修改当前工作目录
-    QDir::setCurrent(qApp->applicationDirPath());
-
     // 初始化日志系统
     Logger logger;
     logger.init();
+    LOG_DEBUG("日志系统就绪");
+
+    // 修改当前工作目录
+    QDir::setCurrent(qApp->applicationDirPath());
+    LOG_DEBUG(QString("切换到工作目录 %1").arg(qApp->applicationDirPath()).toStdString());
 
     // 初始化配置文件
-    SoftConfig::getInstance()->init(qApp->applicationDirPath());
+    bool status = SoftConfig::getInstance()->init(qApp->applicationDirPath());
+    if (!status) return -1;
 
     MainServer server;
     server.start();

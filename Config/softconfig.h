@@ -11,7 +11,7 @@ public:
 
     static SoftConfig* getInstance();
 
-     void init(const QString &path);
+     bool init(const QString &path);
 
     QString getValue(const QString &entry, const QString &item);
 

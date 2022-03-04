@@ -280,7 +280,7 @@ void UdpServer::start_task_3003_in_thread()
             memset(&si, 0, sizeof(STARTUPINFO));
             si.cb = sizeof(STARTUPINFO);
             si.dwFlags = STARTF_RUNFULLSCREEN;
-            si.wShowWindow = SW_SHOW;
+            si.wShowWindow = SW_SHOWMAXIMIZED;
 
             bool status = CreateProcess(NULL, LPWSTR(filePath.toStdWString().data()) , NULL, NULL, FALSE, 0, NULL, LPWSTR(fileDir.toStdWString().data()), &si, &pi);
             if (status)
@@ -292,6 +292,8 @@ void UdpServer::start_task_3003_in_thread()
                 QByteArray message = createPackage(CMD_START_PROGRAM_RESPONSE, QByteArray::fromStdString(QString("start program fail  %1").arg(filePath).toStdString()));
                 sendPackage(message);
             }
+
+            // 找到窗口句柄需要枚举，过程较为耗时，不建议在此处处理
         }
     }
 

@@ -5,6 +5,7 @@
 #include <QTextCodec>
 #include <string>
 #include <QStringList>
+#include <QFile>
 
 using namespace std;
 
@@ -13,10 +14,18 @@ SoftConfig::SoftConfig(QObject *parent) : QObject(parent)
 
 }
 
-void SoftConfig::init(const QString &path)
+bool SoftConfig::init(const QString &path)
 {
     LOG_DEBUG("初始化配置文件");
-    mSetting = new QSettings(QString("%1/%2").arg(path, "conf.ini"), QSettings::IniFormat);
+    QString file = QString("%1/%2").arg(path, "conf.ini");
+    if (!QFile::exists(file))
+    {
+        LOG_DEBUG("配置文件丢失，程序结束，请联系管理员");
+        return false;
+    }
+
+    mSetting = new QSettings(file, QSettings::IniFormat);
+    return true;
 }
 
 SoftConfig *SoftConfig::getInstance()
