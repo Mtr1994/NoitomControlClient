@@ -289,7 +289,7 @@ void UdpServer::start_task_3003_in_thread()
             }
             else
             {
-                QByteArray message = createPackage(CMD_START_PROGRAM_RESPONSE, QByteArray::fromStdString(QString("start program fail  %1").arg(filePath).toStdString()));
+                QByteArray message = createPackage(CMD_START_PROGRAM_RESPONSE, QByteArray::fromStdString(QString("启动程序失败  %1").arg(filePath).toStdString()));
                 sendPackage(message);
             }
 
