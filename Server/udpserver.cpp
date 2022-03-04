@@ -323,24 +323,41 @@ void UdpServer::start_task_3005_in_thread()
 
 void UdpServer::start_task_3007_in_thread(const QByteArray &array)
 {
-    if (array.size() == 0)
+    if (array.size() < 2)
     {
         QByteArray message = createPackage(CMD_KEYBOARD_PRESS_RESPONSE, QByteArray::fromStdString(QString("按键标志异常").toStdString()));
         sendPackage(message);
         return;
     }
 
-    uint8_t key = array.at(0);
-    INPUT input[2];
+    INPUT input[6];
+    memset(input, 0, sizeof(input));
+    input[0].type = input[1].type = input[2].type = input[3].type = input[4].type = input[5].type = INPUT_KEYBOARD;
 
-    input[0].type = INPUT_KEYBOARD;
-    input[0].ki.wVk = key;
-    SendInput(1, input, sizeof(INPUT));
+    uint8_t modifierCount = array.at(0);
+    if (modifierCount > 2)
+    {
+        QByteArray message = createPackage(CMD_KEYBOARD_PRESS_RESPONSE, QByteArray::fromStdString(QString("修饰键超过两个").toStdString()));
+        sendPackage(message);
+        return;
+    }
 
-    input[1].type = INPUT_KEYBOARD;
-    input[1].ki.wVk = key;
-    input[1].ki.dwFlags = KEYEVENTF_KEYUP;
-    SendInput(1, input + 1, sizeof(INPUT));
+    for (uint8_t i = 0; i < modifierCount; i++)
+    {
+        input[i].ki.wVk = array.at(1 + i);
+        input[i + (modifierCount + 1)].ki.wVk = array.at(1 + i);
+    }
+
+    uint8_t key = array.at(1 + modifierCount);
+    input[modifierCount].ki.wVk = key;
+
+    input[modifierCount + (modifierCount + 1)].ki.wVk = key;
+    for (uint8_t i = 0; i < modifierCount + 1; i++)
+    {
+        input[modifierCount + 1 + i].ki.dwFlags = KEYEVENTF_KEYUP;
+    }
+
+    SendInput((1 + modifierCount) * 2, input, sizeof(INPUT));
 
     QByteArray message = createPackage(CMD_KEYBOARD_PRESS_RESPONSE, QByteArray::fromStdString(QString("按键完成").toStdString()));
     sendPackage(message);

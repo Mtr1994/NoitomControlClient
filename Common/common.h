@@ -23,7 +23,7 @@ const uint16_t CMD_STOP_PROGRAM                             = 0X3005;
 // 关闭目标程序回复（ 任意字节消息 ）
 const uint16_t CMD_STOP_PROGRAM_RESPONSE                    = 0X3006;
 
-// 发送键盘按键点击（按键系统标志（ 1 字节 ））（例子：VK_A - VK_Z are the same as ASCII 'A' - 'Z' (0x41 - 0x5A)）
+// 发送键盘按键点击（按键系统标志（ 1 字节（修饰键数量 ）+ （多个修饰键，每个 1 字节） + 1 字节（按键） ））（例子：VK_A - VK_Z are the same as ASCII 'A' - 'Z' (0x41 - 0x5A)）
 const uint16_t CMD_KEYBOARD_PRESS                           = 0X3007;
 const uint16_t CMD_KEYBOARD_PRESS_RESPONSE                  = 0X3008;
 
