@@ -1,4 +1,4 @@
-#include "softconfig.h"
+﻿#include "softconfig.h"
 
 #include "Log/logger.h"
 

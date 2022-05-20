@@ -1,4 +1,4 @@
-#ifndef SOFTCONFIG_H
+﻿#ifndef SOFTCONFIG_H
 #define SOFTCONFIG_H
 
 #include <QObject>

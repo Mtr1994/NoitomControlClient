@@ -1,4 +1,4 @@
-#include "udpserver.h"
+﻿#include "udpserver.h"
 #include "Config/softconfig.h"
 #include "Log/logger.h"
 #include "Common/common.h"
@@ -76,7 +76,7 @@ QString UdpServer::findBroadcastAddress()
     {
        if (addr != QHostAddress::LocalHost && addr.toIPv4Address())
        {
-            if (defaultGate.split('.').sliced(0, 3) == addr.toString().split('.').sliced(0, 3))
+            if (defaultGate.left(defaultGate.lastIndexOf('.')) == addr.toString().left(defaultGate.lastIndexOf('.')))
             {
                 address = addr.toString();
                 break;
@@ -94,7 +94,7 @@ void UdpServer::parsePackage(const QByteArray &array)
     memcpy(&cmd, array.data(), 2);
 
     // 日志记录
-    LOG_DEBUG(QString("接收数据包 %1").arg(array.toHex()).toStdString());
+    LOG_DEBUG(QString("接收数据包 %1").arg(array.toHex().data()).toStdString());
 
     switch (cmd) {
     case CMD_PASSIVE_REGISTRATE:
@@ -193,7 +193,7 @@ QByteArray UdpServer::createPackage(uint16_t cmd, const QByteArray &data)
 void UdpServer::sendPackage(const QByteArray &data)
 {
     // 日志记录
-    LOG_DEBUG(QString("发送数据包 %1").arg(data.toHex()).toStdString());
+    LOG_DEBUG(QString("发送数据包 %1").arg(data.toHex().data()).toStdString());
     mSocketCommand->writeDatagram(data, QHostAddress(mServerAddress), mServerPort);
 }
 
@@ -469,7 +469,7 @@ void UdpServer::slot_recv_command_data()
         mByteArray .append(datagram.data());
     }
 
-    uint32_t length = 0;
+    int32_t length = 0;
     while (mByteArray.size() != 0)
     {
         if (mByteArray.length() < 4)

@@ -3,7 +3,7 @@ QT += network
 
 greaterThan(QT_MAJOR_VERSION, 5): QT += core5compat
 
-CONFIG += c++11
+CONFIG += c++17
 CONFIG -= app_bundle console
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -11,6 +11,8 @@ CONFIG -= app_bundle console
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 INCLUDEPATH += $$PWD/Libs/spdlog/include
+
+DESTDIR = ../output
 
 SOURCES += \
         Config/softconfig.cpp \

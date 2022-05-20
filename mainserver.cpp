@@ -1,4 +1,4 @@
-#include "mainserver.h"
+﻿#include "mainserver.h"
 #include "Server/udpserver.h"
 
 MainServer::MainServer(QObject *parent)

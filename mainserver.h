@@ -1,4 +1,4 @@
-#ifndef MAINSERVER_H
+﻿#ifndef MAINSERVER_H
 #define MAINSERVER_H
 
 #include <QObject>

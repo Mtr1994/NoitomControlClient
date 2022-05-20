@@ -1,4 +1,4 @@
-#ifndef LOGGER_H
+﻿#ifndef LOGGER_H
 #define LOGGER_H
 
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG

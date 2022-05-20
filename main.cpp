@@ -1,4 +1,4 @@
-#include <QCoreApplication>
+﻿#include <QCoreApplication>
 #include "mainserver.h"
 #include "Config/softconfig.h"
 #include "Log/logger.h"
